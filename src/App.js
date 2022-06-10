@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import useSWR from "swr";
 
-function App() {
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+export default function App() {
+  const { data, error } = useSWR(
+    "https://api.github.com/repos/vercel/swr",
+    fetcher
+  );
+
+  console.log(data);
+
+  if (error) return "An error has occurred.";
+  if (!data) return "Loading...";
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>{data.name}</h1>
+      <p>{data.description}</p>
+      <strong>👁 {data.subscribers_count}</strong>{" "}
+      <strong>✨ {data.stargazers_count}</strong>{" "}
+      <strong>🍴 {data.forks_count}</strong>
     </div>
   );
 }
-
-export default App;
