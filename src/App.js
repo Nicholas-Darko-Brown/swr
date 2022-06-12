@@ -1,5 +1,6 @@
 import "./App.css";
 import useSWR from "swr";
+import Sample from "./Sample";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -9,10 +10,8 @@ export default function App() {
     fetcher
   );
 
-  console.log(data);
-
   if (error) return "An error has occurred.";
-  if (!data) return "Loading...";
+  if (!data) return <div className='spinner-container'> <div className="loading-spinner"></div> </div>
 
   return (
     <div>
@@ -21,6 +20,10 @@ export default function App() {
       <strong>👁 {data.subscribers_count}</strong>{" "}
       <strong>✨ {data.stargazers_count}</strong>{" "}
       <strong>🍴 {data.forks_count}</strong>
+
+    <hr></hr>
+
+      <Sample />
     </div>
   );
 }
